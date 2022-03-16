@@ -26,6 +26,10 @@ var snakeLength = 3;
 var directionX = 1;
 var directionY = 0;
 
+//Apple position
+var appleX = Math.floor(Math.random() * pixel);
+var appleY = Math.floor(Math.random() * pixel);
+
 function gameLoop() {
 
   //Move the snake each loop in x & y
@@ -38,6 +42,9 @@ function gameLoop() {
   //Call colorSnake function to color the snake
   colorSnake();
 
+  //Call generateApple function to place an apple on the canvas
+  generateApple();
+
   //Push x & y into the snake array to make the snake
   snake.push({ x: snakeX, y: snakeY });
 
@@ -46,6 +53,27 @@ function gameLoop() {
     snake.shift();
   }
 
+  //If snake is ontop of apple length is increased by 2 and apple is placed in a new random place
+  if ((snakeX == appleX) && (snakeY == appleY)) {
+    snakeLength += 2;
+    appleX = Math.floor(Math.random() * pixel);
+    appleY = Math.floor(Math.random() * pixel);
+  }
+
+}
+function generateApple() {
+  ctx.fillStyle = "green";
+  ctx.fillRect(appleX * grid, appleY * grid, grid, grid);
+}
+function colorSnake() {
+  ctx.fillStyle = "white";
+  for (var i = 0; i < snake.length; i++) {
+    ctx.fillRect(snake[i].x * grid, snake[i].y * grid, grid, grid);
+  }
+}
+function colorBackground() {
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canv.width, canv.height);
 }
 function keyPressed(key) {
   //Switch case for every arrow-key pressed, if statement to hinder the snake from being able to turn the opposite direction
@@ -75,14 +103,4 @@ function keyPressed(key) {
       directionY = 1;
       break;
   }
-}
-function colorSnake() {
-  ctx.fillStyle = "white";
-  for (var i = 0; i < snake.length; i++) {
-    ctx.fillRect(snake[i].x * grid, snake[i].y * grid, grid, grid);
-  }
-}
-function colorBackground() {
-  ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canv.width, canv.height);
 }
