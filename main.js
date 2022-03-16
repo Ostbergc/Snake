@@ -4,7 +4,7 @@ window.onload = function () {
   //Set it to 2d
   ctx = canv.getContext("2d");
   //call gameLoop every 1000ms
-  setInterval(gameLoop, 200);
+  setInterval(gameLoop, 100);
   document.addEventListener("keydown", keyPressed);
 }
 
@@ -69,11 +69,23 @@ function colorSnake() {
   ctx.fillStyle = "white";
   for (var i = 0; i < snake.length; i++) {
     ctx.fillRect(snake[i].x * grid, snake[i].y * grid, grid, grid);
+    //If  we step on tail we reset game, check if snakeLength != 3 to not trigger the if statement at start of game
+    if ((snake[i].x == snakeX && snake[i].y == snakeY) && snakeLength != 3) {
+      //Call resetGame function to reset snake length to 3 and replace snake and apple on the canvas
+      resetGame();
+    }
   }
 }
 function colorBackground() {
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, canv.width, canv.height);
+}
+function resetGame() {
+  snakeX = Math.floor(Math.random() * pixel);
+  snakeY = Math.floor(Math.random() * pixel);
+  appleX = Math.floor(Math.random() * pixel);
+  appleY = Math.floor(Math.random() * pixel);
+  snakeLength = 3;
 }
 function keyPressed(key) {
   //Switch case for every arrow-key pressed, if statement to hinder the snake from being able to turn the opposite direction
