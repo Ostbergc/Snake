@@ -4,7 +4,7 @@ window.onload = function () {
   //Set it to 2d
   ctx = canv.getContext("2d");
   //call gameLoop every 1000ms
-  setInterval(gameLoop, 1000);
+  setInterval(gameLoop, 200);
   document.addEventListener("keydown", keyPressed);
 }
 
@@ -40,6 +40,11 @@ function gameLoop() {
 
   //Push x & y into the snake array to make the snake
   snake.push({ x: snakeX, y: snakeY });
+
+  //Shift the last element to keep the length of the snake
+  while (snake.length > snakeLength) {
+    snake.shift();
+  }
 
 }
 function keyPressed(key) {
