@@ -9,8 +9,8 @@ window.onload = function () {
 }
 
 //Grid and pixel size
-var grid = 20;
-var pixel = 20;
+var grid = 25;
+var pixel = 25;
 
 //Snake position
 var snakeX = Math.floor(Math.random() * pixel);
@@ -35,6 +35,20 @@ function gameLoop() {
   //Move the snake each loop in x & y
   snakeX += directionX;
   snakeY += directionY;
+
+  //If snake goes offscreen set the x or y to other side of the canvas
+  if (snakeX < 0) {
+    snakeX = pixel - 1;
+  }
+  if (snakeX > pixel - 1) {
+    snakeX = 0;
+  }
+  if (snakeY < 0) {
+    snakeY = pixel - 1;
+  }
+  if (snakeY > pixel - 1) {
+    snakeY = 0;
+  }
 
   //Call colorBackground function to fill canvas background
   colorBackground();
