@@ -6,3 +6,10 @@ body{
   margin: auto;
   max-width: 500px;
 }
+h1{
+ font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+ color:blueviolet;
+}
+#currentScore{
+  font-size: xx-large
+}
