@@ -6,6 +6,20 @@ window.onload = function () {
   //call gameLoop every 1000ms
   setInterval(gameLoop, 100);
   document.addEventListener("keydown", keyPressed);
+
+  //Get highscores from localStorage & display it in the highScore divs
+  //Check if undefined to prevent the display of null
+  let highScoreFromBrowser1 = localStorage.getItem("highScore1");
+  if (highScoreFromBrowser1 != undefined) highScore1 = highScoreFromBrowser1;
+  document.getElementById("highScore1").innerHTML = "High Score #1: " + highScore1;
+
+  let highScoreFromBrowser2 = localStorage.getItem("highScore2");
+  if (highScoreFromBrowser2 != undefined) highScore2 = highScoreFromBrowser2;
+  document.getElementById("highScore2").innerHTML = "High Score #2: " + highScore2;
+
+  let highScoreFromBrowser3 = localStorage.getItem("highScore3");
+  if (highScoreFromBrowser3 != undefined) highScore3 = highScoreFromBrowser3;
+  document.getElementById("highScore3").innerHTML = "High Score #3: " + highScore3;
 }
 
 //Grid and pixel size
@@ -29,6 +43,15 @@ var directionY = 0;
 //Apple position
 var appleX = Math.floor(Math.random() * pixel);
 var appleY = Math.floor(Math.random() * pixel);
+
+//Scores
+let score = 0;
+let highScore1 = 0;
+let highScore2 = 0;
+let highScore3 = 0;
+
+var snakeColor = "white";
+
 
 function gameLoop() {
 
@@ -72,6 +95,29 @@ function gameLoop() {
     snakeLength += 2;
     appleX = Math.floor(Math.random() * pixel);
     appleY = Math.floor(Math.random() * pixel);
+
+    //Increment score and update highscore divs
+    score++;
+    document.getElementById("currentScore").innerHTML = "Current Score: " + score;
+    //Change color of snake depending on score for extreme immersive gameplay
+    if (score > highScore1) {
+      highScore1 = score
+      snakeColor = "yellow";
+    } else if (score > highScore2) {
+      highScore2 = score
+      snakeColor = "purple";
+    } else if (score > highScore3) {
+      highScore3 = score
+      snakeColor = "pink";
+    }
+    //Set highscores in localStorage
+    localStorage.setItem("highScore1", highScore1);
+    localStorage.setItem("highScore2", highScore2);
+    localStorage.setItem("highScore3", highScore3);
+    //Display the highscores
+    document.getElementById("highScore1").innerHTML = "High Score #1: " + highScore1;
+    document.getElementById("highScore2").innerHTML = "High Score #2: " + highScore2;
+    document.getElementById("highScore3").innerHTML = "High Score #3: " + highScore3;
   }
 
 }
@@ -80,7 +126,8 @@ function generateApple() {
   ctx.fillRect(appleX * grid, appleY * grid, grid, grid);
 }
 function colorSnake() {
-  ctx.fillStyle = "white";
+  //ctx.fillStyle = "white";
+  ctx.fillStyle = snakeColor;
   for (var i = 0; i < snake.length; i++) {
     ctx.fillRect(snake[i].x * grid, snake[i].y * grid, grid, grid);
     //If  we step on tail we reset game, check if snakeLength != 3 to not trigger the if statement at start of game
@@ -95,6 +142,9 @@ function colorBackground() {
   ctx.fillRect(0, 0, canv.width, canv.height);
 }
 function resetGame() {
+  score = 0;
+  snakeColor = "white";
+  document.getElementById("currentScore").innerHTML = "Current Score: " + score;
   snakeX = Math.floor(Math.random() * pixel);
   snakeY = Math.floor(Math.random() * pixel);
   appleX = Math.floor(Math.random() * pixel);
